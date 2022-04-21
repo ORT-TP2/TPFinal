@@ -1,15 +1,15 @@
 {
-  "name": "primerserver",
+  "name": "servertemplate",
   "type": "module",
   "version": "1.0.0",
-  "description": "Primer Servidor para manejo de entidades del TP final de TP2",
+  "description": "A Template for future projects of a working express server",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/tests.js",
     "start-prod": "node src/main.js",
     "start-dev": "nodemon src/main.js"
   },
-  "authors": "Ariel Schermuk, Yeffer Mego, Aldo López, Damián Martinez",
+  "authors": "Ariel Schermuk",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
