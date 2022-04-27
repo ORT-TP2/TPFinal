@@ -10,9 +10,9 @@ app.get('/ping', (req, res) => {
 
 let server
 
-export const start = () => {
+export const start = (port = 0) => {
     return new Promise((resolve, reject) => {
-        server = app.listen(3000, () => {
+        server = app.listen(port, () => {
             resolve(server.address().port)
         })
         server.on('error', (err) => {

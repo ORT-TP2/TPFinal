@@ -5,8 +5,12 @@ import { start, stop } from '../src/server.js'
 
 
 describe('servidor de pruebas', () => {
+
+    let serverUrl
+
     before(async () => {
-        await start()
+        const port = await start()
+        serverUrl = `http://localhost:${port}`
     })
     after(async () => {
         await stop()
@@ -14,7 +18,7 @@ describe('servidor de pruebas', () => {
     describe('el servidor esta escuchando', () => {
         describe('al hacer ping', () => {
             it('devuelve pong', async () => {
-                const { data } = await axios.get('http://localhost:3000/ping')
+                const { data } = await axios.get(`${serverUrl}/ping`)
                 assert.strictEqual('pong', data)
             })
         })
