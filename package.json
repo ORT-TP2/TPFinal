@@ -1,8 +1,8 @@
 {
-  "name": "primerserver",
+  "name": "tp-final",
   "type": "module",
   "version": "1.0.0",
-  "description": "Primer Servidor para manejo de entidades del TP final de TP2",
+  "description": "Servidor manejo de equipos de practicas del TP final de TP2",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/tests.js",
