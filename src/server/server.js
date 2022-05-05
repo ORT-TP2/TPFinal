@@ -1,5 +1,5 @@
 import express from 'express'
-import { getParticipants, addParticipant, getParticipant } from '../participants/participants.js'
+import { getParticipants, addParticipant, getParticipant, replaceParticipant } from '../participants/participants.js'
 
 const app = express()
 
@@ -17,7 +17,7 @@ app.get('/participants/:id', (req, res) => {
     try {
         res.json(getParticipant(req.params.id))
     } catch (error) {
-        res.status(404).json({ message: error.message })
+        res.status(error.statusCode).json({ message: error.message })
     }
 })
 
@@ -25,7 +25,15 @@ app.post('/participants', (req, res) => {
     try {
         res.status(201).json(addParticipant(req.body))
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(error.statusCode).json({ message: error.message })
+    }
+})
+
+app.put('/participants/:id', (req, res) => {
+    try {
+        res.json(replaceParticipant(req.params.id, req.body))
+    } catch (error) {
+        res.status(error.statusCode).json({ message: error.message })
     }
 })
 

@@ -20,7 +20,7 @@ describe('test server', () => {
         describe('when pinged', () => {
             it('pongs', async () => {
                 const { data } = await axios.get(`${serverUrl}/ping`)
-                
+
                 assert.strictEqual(data, 'pong')
             })
         })
@@ -39,7 +39,7 @@ describe('test server', () => {
                         it('should return that one', async () => {
                             const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
                             const addedParticipant = addParticipant(newParticipant)
-                            
+
                             const { data, status } = await axios.get(`${serverUrl}/participants/${addedParticipant.id}`)
 
                             assert.strictEqual(status, 200)
@@ -49,6 +49,7 @@ describe('test server', () => {
                     describe("that doesn't exist", () => {
                         it('should return 404 (Not found)', async () => {
                             const id = "ThisIdDoesn'tExist"
+
                             await assert.rejects(
                                 axios.get(`${serverUrl}/participants/${id}`),
                                 error => {
@@ -84,7 +85,6 @@ describe('test server', () => {
                                 return true
                             }
                         )
-
                         assert.deepStrictEqual(participantsBefore, getParticipants())
                     })
                 })
@@ -100,7 +100,6 @@ describe('test server', () => {
                                 return true
                             }
                         )
-
                         assert.deepStrictEqual(participantsBefore, getParticipants())
                     })
                 })
@@ -116,10 +115,98 @@ describe('test server', () => {
                                 return true
                             }
                         )
-
                         assert.deepStrictEqual(participantsBefore, getParticipants())
                     })
                 })
+            })
+            describe('when updating', () => {
+                describe('that exists', () => {
+                    describe('with valid data', () => {
+                        it("should update it", async () => {
+                            const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                            const participantsBefore = getParticipants()
+                            const addedParticipant = addParticipant(newParticipant)
+                            const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: 2023 }
+
+                            const { data, status } = await axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant)
+
+                            assert.strictEqual(status, 200)
+                            assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                        })
+                    })
+                    describe('with invalid data', () => {
+                        describe('without a name', () => {
+                            it("should return 400 (Bad Request) and not update", async () => {
+                                const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                                const addedParticipant = addParticipant(newParticipant)
+                                const newUpdatedParticipant = { classOf: 2023 }
+                                const participantsBefore = getParticipants()
+
+                                await assert.rejects(
+                                    axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant),
+                                    error => {
+                                        assert.strictEqual(error.response.status, 400)
+                                        return true
+                                    }
+                                )
+                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                            })
+                        })
+                        describe('without a classOf', () => {
+                            it("should return 400 (Bad Request) and not update", async () => {
+                                const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                                const addedParticipant = addParticipant(newParticipant)
+                                const newUpdatedParticipant = { name: "Pepe Rodriguez" }
+                                const participantsBefore = getParticipants()
+
+                                await assert.rejects(
+                                    axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant),
+                                    error => {
+                                        assert.strictEqual(error.response.status, 400)
+                                        return true
+                                    }
+                                )
+                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                            })
+                        })
+                        describe('with a non numeric classOf', () => {
+                            it("should return 400 (Bad Request) and not update", async () => {
+                                const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                                const addedParticipant = addParticipant(newParticipant)
+                                const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: "Dosmil Veintitres" }
+                                const participantsBefore = getParticipants()
+
+                                await assert.rejects(
+                                    axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant),
+                                    error => {
+                                        assert.strictEqual(error.response.status, 400)
+                                        return true
+                                    }
+                                )
+                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                            })
+                        })
+                    })
+                })
+                describe("that doesn't exist", () => {
+                    it("should return 404 (Not found) and not update", async () => {
+                        const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                                addParticipant(newParticipant)
+                                const id = "ThisIdDoesn'tExist"
+                                const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: "Dosmil Veintitres" }
+                                const participantsBefore = getParticipants()
+
+                                await assert.rejects(
+                                    axios.put(`${serverUrl}/participants/${id}`, newUpdatedParticipant),
+                                    error => {
+                                        assert.strictEqual(error.response.status, 404)
+                                        return true
+                                    }
+                                )
+                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                    })
+                })
+
             })
         })
     })
