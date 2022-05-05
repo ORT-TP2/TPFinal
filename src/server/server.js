@@ -1,12 +1,9 @@
 import express from 'express'
+import { participantsRouter } from '../participants/participantRouter.js'
 
 const app = express()
-
 app.use(express.json())
-
-app.get('/ping', (req, res) => {
-    res.json('pong')
-})
+app.use('/participants', participantsRouter)
 
 let server
 
