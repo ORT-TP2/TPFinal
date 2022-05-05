@@ -191,22 +191,50 @@ describe('test server', () => {
                 describe("that doesn't exist", () => {
                     it("should return 404 (Not found) and not update", async () => {
                         const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                                addParticipant(newParticipant)
-                                const id = "ThisIdDoesn'tExist"
-                                const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: "Dosmil Veintitres" }
-                                const participantsBefore = getParticipants()
+                        addParticipant(newParticipant)
+                        const id = "ThisIdDoesn'tExist"
+                        const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: "Dosmil Veintitres" }
+                        const participantsBefore = getParticipants()
 
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/participants/${id}`, newUpdatedParticipant),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 404)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                        await assert.rejects(
+                            axios.put(`${serverUrl}/participants/${id}`, newUpdatedParticipant),
+                            error => {
+                                assert.strictEqual(error.response.status, 404)
+                                return true
+                            }
+                        )
+                        assert.deepStrictEqual(participantsBefore, getParticipants())
                     })
                 })
 
+            })
+            describe('when deleting', () => {
+                describe('that exists', () => {
+                    it('should delete it', async () => {
+                        const participantsBefore = getParticipants()
+                        const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                        const addedParticipant = addParticipant(newParticipant)
+
+                        const { data, status } = await axios.delete(`${serverUrl}/participants/${addedParticipant.id}`)
+
+
+                        assert.strictEqual(status, 200)
+                        assert.deepStrictEqual(participantsBefore, getParticipants())
+                    })
+                })
+                describe("that doesn't exist", () => {
+                    it('should return 404 (Not found)', async () => {
+                        const id = "ThisIdDoesn'tExist"
+
+                        await assert.rejects(
+                            axios.delete(`${serverUrl}/participants/${id}`),
+                            error => {
+                                assert.strictEqual(error.response.status, 404)
+                                return true
+                            }
+                        )
+                    })
+                })
             })
         })
     })

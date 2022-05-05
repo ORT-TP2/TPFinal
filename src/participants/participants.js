@@ -30,6 +30,11 @@ export const replaceParticipant = (id, data) => {
     return newParticipant
 }
 
+export const removeParticipant = (id) => {
+    const participant = getParticipant(id)
+    participants.splice(participants.indexOf(participant))
+}
+
 const createParticipant = (data) => {
     validate(data)
 
