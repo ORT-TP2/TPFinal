@@ -1,9 +1,11 @@
 import express from 'express'
 import { participantsRouter } from '../participants/participantRouter.js'
+import { groupsRouter } from '../groups/groupRouter.js'
 
 const app = express()
 app.use(express.json())
 app.use('/participants', participantsRouter)
+app.use('/groups', groupsRouter)
 
 let server
 
