@@ -17,13 +17,6 @@ describe('test server', () => {
         await stop()
     })
     describe('server is listening', () => {
-        describe('when pinged', () => {
-            it('pongs', async () => {
-                const { data } = await axios.get(`${serverUrl}/ping`)
-
-                assert.strictEqual(data, 'pong')
-            })
-        })
         describe('participants', () => {
             describe('when asking', () => {
                 describe('for all', () => {

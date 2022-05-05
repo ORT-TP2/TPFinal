@@ -1,49 +1,9 @@
 import express from 'express'
-import { getParticipants, addParticipant, getParticipant, replaceParticipant, removeParticipant } from '../participants/participants.js'
+import { participantsRouter } from '../participants/participantRouter.js'
 
 const app = express()
-
 app.use(express.json())
-
-app.get('/ping', (req, res) => {
-    res.json('pong')
-})
-
-app.get('/participants', (req, res) => {
-    res.json(getParticipants())
-})
-
-app.get('/participants/:id', (req, res) => {
-    try {
-        res.json(getParticipant(req.params.id))
-    } catch (error) {
-        res.status(error.statusCode).json({ message: error.message })
-    }
-})
-
-app.post('/participants', (req, res) => {
-    try {
-        res.status(201).json(addParticipant(req.body))
-    } catch (error) {
-        res.status(error.statusCode).json({ message: error.message })
-    }
-})
-
-app.put('/participants/:id', (req, res) => {
-    try {
-        res.json(replaceParticipant(req.params.id, req.body))
-    } catch (error) {
-        res.status(error.statusCode).json({ message: error.message })
-    }
-})
-
-app.delete('/participants/:id', (req, res) => {
-    try {
-        res.json(removeParticipant(req.params.id))
-    } catch (error) {
-        res.status(error.statusCode).json({ message: error.message })
-    }
-})
+app.use('/participants', participantsRouter)
 
 let server
 
