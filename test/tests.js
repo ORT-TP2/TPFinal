@@ -19,6 +19,11 @@ describe('test server', () => {
     })
     describe('server is listening', () => {
         describe('participants', () => {
+            const invalidDataParticipants = [
+                { data: { classOf: 2022 }, invalidData: 'without a name' },
+                { data: { name: "Juan Sanchez" }, invalidData: 'without a classOf' },
+                { data: { name: "Juan Sanchez", classOf: "Dosmil Veintidos" }, invalidData: 'with a non numeric classOf' }
+            ]
             describe('when getting', () => {
                 describe('all', () => {
                     it('should return all', async () => {
@@ -67,50 +72,21 @@ describe('test server', () => {
                         assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
                     })
                 })
-                describe('whit invalid data', () => {
-                    describe('without a name', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newParticipant = { classOf: 2022 }
-                            const participantsBefore = getParticipants()
+                describe('with invalid data', () => {
+                    invalidDataParticipants.forEach(invalidDataObject => {
+                        describe(invalidDataObject.invalidData, () => {
+                            it("should return 400 (Bad Request) and not add it", async () => {
+                                const participantsBefore = getParticipants()
 
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/participants`, newParticipant),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(participantsBefore, getParticipants())
-                        })
-                    })
-                    describe('without a classOf', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newParticipant = { name: "Juan Sanchez" }
-                            const participantsBefore = getParticipants()
-
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/participants`, newParticipant),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(participantsBefore, getParticipants())
-                        })
-                    })
-                    describe('with a non numeric classOf', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newParticipant = { name: "Juan Sanchez", classOf: "Dosmil Veintidos" }
-                            const participantsBefore = getParticipants()
-
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/participants`, newParticipant),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(participantsBefore, getParticipants())
+                                await assert.rejects(
+                                    axios.post(`${serverUrl}/participants`, invalidDataObject.data),
+                                    error => {
+                                        assert.strictEqual(error.response.status, 400)
+                                        return true
+                                    }
+                                )
+                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                            })
                         })
                     })
                 })
@@ -131,55 +107,22 @@ describe('test server', () => {
                         })
                     })
                     describe('with invalid data', () => {
-                        describe('without a name', () => {
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                                const addedParticipant = addParticipant(newParticipant)
-                                const newUpdatedParticipant = { classOf: 2023 }
-                                const participantsBefore = getParticipants()
+                        invalidDataParticipants.forEach(invalidDataObject => {
+                            describe(invalidDataObject.invalidData, () => {
+                                it("should return 400 (Bad Request) and not update", async () => {
+                                    const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                                    const addedParticipant = addParticipant(newParticipant)
+                                    const participantsBefore = getParticipants()
 
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(participantsBefore, getParticipants())
-                            })
-                        })
-                        describe('without a classOf', () => {
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                                const addedParticipant = addParticipant(newParticipant)
-                                const newUpdatedParticipant = { name: "Pepe Rodriguez" }
-                                const participantsBefore = getParticipants()
-
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(participantsBefore, getParticipants())
-                            })
-                        })
-                        describe('with a non numeric classOf', () => {
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                                const addedParticipant = addParticipant(newParticipant)
-                                const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: "Dosmil Veintitres" }
-                                const participantsBefore = getParticipants()
-
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                                    await assert.rejects(
+                                        axios.put(`${serverUrl}/participants/${addedParticipant.id}`, invalidDataObject.data),
+                                        error => {
+                                            assert.strictEqual(error.response.status, 400)
+                                            return true
+                                        }
+                                    )
+                                    assert.deepStrictEqual(participantsBefore, getParticipants())
+                                })
                             })
                         })
                     })
@@ -234,6 +177,16 @@ describe('test server', () => {
             })
         })
         describe('groups', () => {
+            const validDataGroups = [
+                { data: { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }, validData: 'with all fields' },
+                //{ data: { name: "Magos", ordinal: 1, area: "Jardín"}, validData: 'without an average quantity' },
+            ]
+            const invalidDataGroups = [
+                { data: { ordinal: 1, area: "Jardín", avgQty: 15 }, invalidData: 'without a name' },
+                { data: { name: "Magos", area: "Jardín", avgQty: 15 }, invalidData: 'without an ordinal' },
+                { data: { name: "Magos", ordinal: "Dos", area: "Jardín", avgQty: 15 }, invalidData: 'with a non numeric ordinal' },
+                { data: { name: "Magos", ordinal: 1, avgQty: 15 }, invalidData: 'without an area' },
+            ]
             describe('when getting', () => {
                 describe('all', () => {
                     it('should return all', async () => {
@@ -272,88 +225,34 @@ describe('test server', () => {
             })
             describe('when adding', () => {
                 describe('with valid data', () => {
-                    describe('with avgQty', () => {
-                        it("should add it", async () => {
-                            const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                            const groupsBefore = getGroups()
+                    validDataGroups.forEach(validDataObject => {
+                        describe(validDataObject.validData, () => {
+                            it("should add it", async () => {
+                                const groupsBefore = getGroups()
 
-                            const { data, status } = await axios.post(`${serverUrl}/groups`, newGroup)
+                                const { data, status } = await axios.post(`${serverUrl}/groups`, validDataObject.data)
 
-                            assert.strictEqual(status, 201)
-                            assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
+                                assert.strictEqual(status, 201)
+                                assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
+                            })
                         })
                     })
-                    /*TODO arreglar este test describe('without avgQty', () => {
-                        it("should add it", async () => {
-                            const newGroup = { name: "Magos", ordinal: 1, area: "Jardín" }
-                            const groupsBefore = getGroups()
-
-                            const { data, status } = await axios.post(`${serverUrl}/groups`, newGroup)
-
-                            assert.strictEqual(status, 201)
-                            assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
-                        })
-                    })*/
                 })
-                describe('whit invalid data', () => {
-                    describe('without a name', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newGroup = { ordinal: 1, area: "Jardín", avgQty: 15 }
-                            const groupsBefore = getGroups()
-
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/groups`, newGroup),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(groupsBefore, getGroups())
-                        })
-                    })
-                    describe('without an ordinal', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newGroup = { name: "Magos", area: "Jardín", avgQty: 15 }
-                            const groupsBefore = getGroups()
-
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/groups`, newGroup),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(groupsBefore, getGroups())
-                        })
-                    })
-                    describe('with a non numeric ordinal', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newGroup = { name: "Magos", ordinal: "Primero", area: "Jardín", avgQty: 15 }
-                            const groupsBefore = getGroups()
-
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/groups`, newGroup),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(groupsBefore, getGroups())
-                        })
-                    })
-                    describe('without an area', () => {
-                        it("should return 400 (Bad Request) and not add it", async () => {
-                            const newGroup = { name: "Magos", ordinal: 1, avgQty: 15 }
-                            const groupsBefore = getGroups()
-
-                            await assert.rejects(
-                                axios.post(`${serverUrl}/groups`, newGroup),
-                                error => {
-                                    assert.strictEqual(error.response.status, 400)
-                                    return true
-                                }
-                            )
-                            assert.deepStrictEqual(groupsBefore, getGroups())
+                describe('with invalid data', () => {
+                    invalidDataGroups.forEach(invalidDataObject => {
+                        describe(invalidDataObject.invalidData, () => {
+                            it("should return 400 (Bad Request) and not add it", async () => {
+                                const groupsBefore = getGroups()
+    
+                                await assert.rejects(
+                                    axios.post(`${serverUrl}/groups`, invalidDataObject.data),
+                                    error => {
+                                        assert.strictEqual(error.response.status, 400)
+                                        return true
+                                    }
+                                )
+                                assert.deepStrictEqual(groupsBefore, getGroups())
+                            })
                         })
                     })
                 })
@@ -374,72 +273,22 @@ describe('test server', () => {
                         })
                     })
                     describe('with invalid data', () => {
-                        describe('without a name', () => {
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                                const addedGroup = addGroup(newGroup)
-                                const newUpdatedGroup = { ordinal: 4, area: "Primaria Chica", avgQty: 12 }
-                                const groupsBefore = getGroups()
-
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/groups/${addedGroup.id}`, newUpdatedGroup),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(groupsBefore, getGroups())
-                            })
-                        })
-                        describe('without an ordinal', () => {
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                                const addedGroup = addGroup(newGroup)
-                                const newUpdatedGroup = { name: "Reyes", area: "Primaria Chica", avgQty: 12 }
-                                const groupsBefore = getGroups()
-
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/groups/${addedGroup.id}`, newUpdatedGroup),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(groupsBefore, getGroups())
-                            })
-                        })
-                        describe('with a non numeric ordinal', () => {
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                                const addedGroup = addGroup(newGroup)
-                                const newUpdatedGroup = { name: "Reyes", ordinal: "Cuarto", area: "Primaria Chica", avgQty: 12 }
-                                const groupsBefore = getGroups()
-
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/groups/${addedGroup.id}`, newUpdatedGroup),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(groupsBefore, getGroups())
-                            })
-                        })
-                        describe('without an area', () =>{
-                            it("should return 400 (Bad Request) and not update", async () => {
-                                const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                                const addedGroup = addGroup(newGroup)
-                                const newUpdatedGroup = { name: "Reyes", ordinal: 4, avgQty: 12 }
-                                const groupsBefore = getGroups()
-
-                                await assert.rejects(
-                                    axios.put(`${serverUrl}/groups/${addedGroup.id}`, newUpdatedGroup),
-                                    error => {
-                                        assert.strictEqual(error.response.status, 400)
-                                        return true
-                                    }
-                                )
-                                assert.deepStrictEqual(groupsBefore, getGroups())
+                        invalidDataGroups.forEach(invalidDataObject => {
+                            describe(invalidDataObject.invalidData, () => {
+                                it("should return 400 (Bad Request) and not update", async () => {
+                                    const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
+                                    const addedGroup = addGroup(newGroup)
+                                    const groupsBefore = getGroups()
+    
+                                    await assert.rejects(
+                                        axios.put(`${serverUrl}/groups/${addedGroup.id}`, invalidDataObject.data),
+                                        error => {
+                                            assert.strictEqual(error.response.status, 400)
+                                            return true
+                                        }
+                                    )
+                                    assert.deepStrictEqual(groupsBefore, getGroups())
+                                })
                             })
                         })
                     })
