@@ -10,7 +10,7 @@
     "start": "node src/main.js",
     "start-dev": "nodemon src/main.js"
   },
-  "authors": "Ariel Schermuk, Yeffer Mego, Aldo López, Damián Martinez",
+  "authors": "Ariel Schermuk, Aldo López, Damián Martinez",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
