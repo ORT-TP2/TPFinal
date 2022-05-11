@@ -49,5 +49,3 @@ $ npm run start-dev * runs server with nodemon
 $ npm run test * runs test suite
 $ npm run test-dev * runs server with nodemon
 ```
-
-  View the website at: http://localhost:3000
