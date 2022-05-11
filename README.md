@@ -8,9 +8,9 @@ For this purpose this application, which is meant for the course coordinator, wi
     - He/She who participates in the course and gives practices as part of their education as future group leaders
 - Group:
     - A group of children who recieve the practices given by the participants in each practice sessions
-- Practice:
+- Practice (/Practice Session):
     - A single instance of one or more participants assigned to a group to give practices
-- Practice Day/Session:
+- Practice Day:
     - One or more practices given on a certain same day
 - Report:
     - A performance report on a given participant for a given practice that they took part in.
