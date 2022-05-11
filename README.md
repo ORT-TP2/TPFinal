@@ -20,7 +20,6 @@ For this purpose this application, which is meant for the course coordinator, wi
 - Schermuk Ariel 
 - Lopez, Aldo Sebastián
 - Martínez, Damián
-- Mego, Yeffer
 
 ## Installation
 
