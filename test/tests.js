@@ -19,6 +19,9 @@ describe('test server', () => {
     })
     describe('server is listening', () => {
         describe('participants', () => {
+            const validDataParticipants = [
+                { data: { name: "Juan Sanchez", classOf: 2022 }, validData: 'with all fields' },
+            ]
             const invalidDataParticipants = [
                 { data: { classOf: 2022 }, invalidData: 'without a name' },
                 { data: { name: "Juan Sanchez" }, invalidData: 'without a classOf' },
@@ -62,14 +65,17 @@ describe('test server', () => {
             })
             describe('when adding', () => {
                 describe('with valid data', () => {
-                    it("should add it", async () => {
-                        const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                        const participantsBefore = getParticipants()
+                    validDataParticipants.forEach(validDataObject => {
+                        describe(validDataObject.validData, () => {
+                            it("should add it", async () => {
+                                const participantsBefore = getParticipants()
 
-                        const { data, status } = await axios.post(`${serverUrl}/participants`, newParticipant)
+                                const { data, status } = await axios.post(`${serverUrl}/participants`, validDataObject.data)
 
-                        assert.strictEqual(status, 201)
-                        assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                                assert.strictEqual(status, 201)
+                                assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                            })
+                        })
                     })
                 })
                 describe('with invalid data', () => {
@@ -94,16 +100,19 @@ describe('test server', () => {
             describe('when updating', () => {
                 describe('that exists', () => {
                     describe('with valid data', () => {
-                        it("should update it", async () => {
-                            const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                            const participantsBefore = getParticipants()
-                            const addedParticipant = addParticipant(newParticipant)
-                            const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: 2023 }
+                        validDataParticipants.forEach(validDataObject => {
+                            describe(validDataObject.validData, () => {
+                                it("should update it", async () => {
+                                    const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
+                                    const participantsBefore = getParticipants()
+                                    const addedParticipant = addParticipant(newParticipant)
 
-                            const { data, status } = await axios.put(`${serverUrl}/participants/${addedParticipant.id}`, newUpdatedParticipant)
+                                    const { data, status } = await axios.put(`${serverUrl}/participants/${addedParticipant.id}`, validDataObject.data)
 
-                            assert.strictEqual(status, 200)
-                            assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                                    assert.strictEqual(status, 200)
+                                    assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                                })
+                            })
                         })
                     })
                     describe('with invalid data', () => {
@@ -243,7 +252,7 @@ describe('test server', () => {
                         describe(invalidDataObject.invalidData, () => {
                             it("should return 400 (Bad Request) and not add it", async () => {
                                 const groupsBefore = getGroups()
-    
+
                                 await assert.rejects(
                                     axios.post(`${serverUrl}/groups`, invalidDataObject.data),
                                     error => {
@@ -260,16 +269,19 @@ describe('test server', () => {
             describe('when updating', () => {
                 describe('that exists', () => {
                     describe('with valid data', () => {
-                        it("should update it", async () => {
-                            const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                            const groupsBefore = getGroups()
-                            const addedGroup = addGroup(newGroup)
-                            const newUpdatedGroup = { name: "Reyes", ordinal: 4, area: "Primaria Chica", avgQty: 12 }
+                        validDataGroups.forEach(validDataObject => {
+                            describe(validDataObject.validData, () => {
+                                it("should update it", async () => {
+                                    const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
+                                    const groupsBefore = getGroups()
+                                    const addedGroup = addGroup(newGroup)
 
-                            const { data, status } = await axios.put(`${serverUrl}/groups/${addedGroup.id}`, newUpdatedGroup)
+                                    const { data, status } = await axios.put(`${serverUrl}/groups/${addedGroup.id}`, validDataObject.data)
 
-                            assert.strictEqual(status, 200)
-                            assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
+                                    assert.strictEqual(status, 200)
+                                    assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
+                                })
+                            })
                         })
                     })
                     describe('with invalid data', () => {
@@ -279,7 +291,7 @@ describe('test server', () => {
                                     const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
                                     const addedGroup = addGroup(newGroup)
                                     const groupsBefore = getGroups()
-    
+
                                     await assert.rejects(
                                         axios.put(`${serverUrl}/groups/${addedGroup.id}`, invalidDataObject.data),
                                         error => {
