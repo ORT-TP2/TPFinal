@@ -19,8 +19,8 @@ describe('test server', () => {
     })
     describe('server is listening', () => {
         describe('participants', () => {
-            describe('when asking', () => {
-                describe('for all', () => {
+            describe('when getting', () => {
+                describe('all', () => {
                     it('should return all', async () => {
                         const { data, status } = await axios.get(`${serverUrl}/participants`)
 
@@ -28,7 +28,7 @@ describe('test server', () => {
                         assert.deepStrictEqual(data, getParticipants())
                     })
                 })
-                describe('for one', () => {
+                describe('one', () => {
                     describe('that exists', () => {
                         it('should return that one', async () => {
                             const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
@@ -234,8 +234,8 @@ describe('test server', () => {
             })
         })
         describe('groups', () => {
-            describe('when asking', () => {
-                describe('for all', () => {
+            describe('when getting', () => {
+                describe('all', () => {
                     it('should return all', async () => {
                         const { data, status } = await axios.get(`${serverUrl}/groups`)
 
@@ -243,7 +243,7 @@ describe('test server', () => {
                         assert.deepStrictEqual(data, getGroups())
                     })
                 })
-                describe('for one', () => {
+                describe('one', () => {
                     describe('that exists', () => {
                         it('should return that one', async () => {
                             const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
