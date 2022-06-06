@@ -2,7 +2,7 @@ import assert from 'assert'
 import axios from 'axios'
 
 import { start, stop } from '../src/server/server.js'
-import { getParticipants, addParticipant } from '../src/participant/participants.js'
+import { getParticipants, addParticipant } from '../src/participant/service/participantService.js'
 import { getGroups, addGroup } from '../src/group/service/groupService.js'
 
 

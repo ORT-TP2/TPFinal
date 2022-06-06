@@ -1,5 +1,5 @@
 import express from 'express'
-import { participantsRouter } from '../participant/participantRouter.js'
+import { participantsRouter } from '../participant/router/participantRouter.js'
 import { groupsRouter } from '../group/router/groupRouter.js'
 import { errorHandler } from '../error/errorHandler.js'
 
