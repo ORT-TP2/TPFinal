@@ -1,5 +1,5 @@
 import Router from 'express'
-import { getParticipants, addParticipant, getParticipant, replaceParticipant, removeParticipant } from '../participants/participants.js'
+import { getParticipants, addParticipant, getParticipant, replaceParticipant, removeParticipant } from '../participant/participants.js'
 
 export const participantsRouter = new Router()
 

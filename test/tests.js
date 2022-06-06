@@ -2,8 +2,8 @@ import assert from 'assert'
 import axios from 'axios'
 
 import { start, stop } from '../src/server/server.js'
-import { getParticipants, addParticipant } from '../src/participants/participants.js'
-import { getGroups, addGroup } from '../src/groups/groups.js'
+import { getParticipants, addParticipant } from '../src/participant/participants.js'
+import { getGroups, addGroup } from '../src/group/service/groupService.js'
 
 
 describe('test server', () => {
@@ -332,7 +332,7 @@ describe('test server', () => {
                         const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
                         const addedGroup = addGroup(newGroup)
 
-                        const { data, status } = await axios.delete(`${serverUrl}/groups/${addedGroup.id}`)
+                        const { status } = await axios.delete(`${serverUrl}/groups/${addedGroup.id}`)
 
 
                         assert.strictEqual(status, 200)

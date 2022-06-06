@@ -1,5 +1,5 @@
-export const getNewId = (elements) => {
-    return elements.length > 0
-        ? Math.max.apply(null, elements.map(e => e.id)) + 1
-        : 1;
+import { v4 as uuidv4 } from 'uuid'
+
+export const getNewId = (seed) => {
+    return `${seed}-${uuidv4()}`
 }
