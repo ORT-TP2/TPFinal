@@ -1,4 +1,4 @@
-import dao from '../db/participantDAOSelector.js'
+import { dao } from '../db/participantDAOSelector.js'
 import { createParticipant } from '../model/Participant.js'
 
 export const getParticipants = () => {

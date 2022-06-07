@@ -1,4 +1,4 @@
-import dao from '../db/groupDAOSelector.js'
+import { dao } from '../db/groupDAOSelector.js'
 import { createGroup } from '../model/Group.js'
 
 export const getGroups = () => {
