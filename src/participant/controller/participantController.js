@@ -5,34 +5,18 @@ export const getParticipantsController = (req, res) => {
 }
 
 export const getParticipantController = (req, res, next) => {
-    try {
-        res.json(getParticipant(req.params.id))
-    } catch (error) {
-        next(error)
-    }
+    res.json(getParticipant(req.params.id))
 }
 
 export const addParticipantController = (req, res, next) => {
-    try {
-        res.status(201).json(addParticipant(req.body))
-    } catch (error) {
-        next(error)
-    }
+    res.status(201).json(addParticipant(req.body))
 }
 
 
 export const updateParticipantController = (req, res, next) => {
-    try {
-        res.json(replaceParticipant(req.params.id, req.body))
-    } catch (error) {
-        next(error)
-    }
+    res.json(replaceParticipant(req.params.id, req.body))
 }
 
 export const deleteParticipantController = (req, res, next) => {
-    try {
-        res.json(removeParticipant(req.params.id))
-    } catch (error) {
-        next(error)
-    }
+    res.json(removeParticipant(req.params.id))
 }
