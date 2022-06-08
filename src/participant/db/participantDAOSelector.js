@@ -1,9 +1,9 @@
 import { PERSISTANCE_MODE, PERSISTANCE_MODES } from '../../config/config.js'
-import * as fileDAO from './participantMemoryDAO.js'
-import * as dbDAO from './participantMemoryDAO.js'
-import * as memoryDAO from './participantMemoryDAO.js'
+import * as fileDAO from './implementations/participantMemoryDAO.js'
+import * as dbDAO from './implementations/participantMemoryDAO.js'
+import * as memoryDAO from './implementations/participantMemoryDAO.js'
 
-let dao
+export let dao
 
 switch (PERSISTANCE_MODE) {
     case PERSISTANCE_MODES.file:
@@ -16,5 +16,3 @@ switch (PERSISTANCE_MODE) {
         dao = memoryDAO
         break
 }
-
-export default dao

@@ -1,4 +1,4 @@
-import { errorTypes } from '../../error/errorTypes.js'
+import { errorTypes } from '../../../error/errorTypes.js'
 
 const participants = []
 
