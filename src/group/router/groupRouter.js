@@ -1,14 +1,10 @@
 import Router from 'express'
-import { getGroupsController , getGroupController , addGroupController, updateGroupController, deleteGroupController } from '../controller/groupController.js'
+import { groupController }  from '../controller/groupController.js'
 
-export const groupsRouter = new Router()
+export const groupRouter = new Router()
 
-groupsRouter.get('/', getGroupsController)
-
-groupsRouter.get('/:id', getGroupController)
-
-groupsRouter.post('/', addGroupController)
-
-groupsRouter.put('/:id', updateGroupController)
-
-groupsRouter.delete('/:id', deleteGroupController)
+groupRouter.get('/', groupController.getAll)
+groupRouter.get('/:id', groupController.getOne)
+groupRouter.post('/', groupController.add)
+groupRouter.put('/:id', groupController.update)
+groupRouter.delete('/:id', groupController.delete)

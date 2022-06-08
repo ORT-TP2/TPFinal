@@ -1,18 +1,18 @@
 import { PERSISTANCE_MODE, PERSISTANCE_MODES } from '../../config/config.js'
-import * as fileDAO from './implementations/groupMemoryDAO.js'
-import * as dbDAO from './implementations/groupMemoryDAO.js'
-import * as memoryDAO from './implementations/groupMemoryDAO.js'
+import { groupDAO as fileDAO } from './implementations/groupMemoryDAO.js'
+import { groupDAO as dbDAO } from './implementations/groupMemoryDAO.js'
+import { groupDAO as memoryDAO } from './implementations/groupMemoryDAO.js'
 
-export let dao
+export let groupDAO
 
 switch (PERSISTANCE_MODE) {
     case PERSISTANCE_MODES.file:
-        dao = fileDAO
+        groupDAO = fileDAO
         break
     case PERSISTANCE_MODES.db:
-        dao = dbDAO
+        groupDAO = dbDAO
         break
     default:
-        dao = memoryDAO
+        groupDAO = memoryDAO
         break
 }
