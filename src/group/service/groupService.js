@@ -1,26 +1,26 @@
-import { dao } from '../db/groupDAOSelector.js'
+import { dao as groupDAO } from '../db/groupDAOSelector.js'
 import { createGroup } from '../model/Group.js'
 
 export const getGroups = () => {
-    return dao.getGroups()
+    return groupDAO.getGroups()
 }
 
 export const getGroup = (id) => {
-    return dao.getGroup(id)
+    return groupDAO.getGroup(id)
 }
 
 export const addGroup = (data) => {
     const group = createGroup(data)
-    dao.addGroup(group)
+    groupDAO.addGroup(group)
     return group
 }
 
-export const replaceGroup = (id, data) => {
+export const updateGroup = (id, data) => {
     const newGroup = createGroup(data)
-    dao.replaceGroup(id, newGroup)
+    groupDAO.updateGroup(id, newGroup)
     return newGroup
 }
 
-export const removeGroup = (id) => {
-    dao.deleteGroup(id)
+export const deleteGroup = (id) => {
+    groupDAO.deleteGroup(id)
 }

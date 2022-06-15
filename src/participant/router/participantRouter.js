@@ -1,14 +1,10 @@
 import Router from 'express'
-import { getParticipantsController , getParticipantController , addParticipantController, updateParticipantController, deleteParticipantController } from '../controller/participantController.js'
+import * as participantController from '../controller/participantController.js'
 
-export const participantsRouter = new Router()
+export const participantRouter = new Router()
 
-participantsRouter.get('/', getParticipantsController)
-
-participantsRouter.get('/:id', getParticipantController)
-
-participantsRouter.post('/', addParticipantController)
-
-participantsRouter.put('/:id', updateParticipantController)
-
-participantsRouter.delete('/:id', deleteParticipantController)
+participantRouter.get('/', participantController.getParticipants)
+participantRouter.get('/:id', participantController.getParticipant)
+participantRouter.post('/', participantController.addParticipant)
+participantRouter.put('/:id', participantController.updateParticipant)
+participantRouter.delete('/:id', participantController.deleteParticipant)

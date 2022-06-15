@@ -1,26 +1,26 @@
-import { dao } from '../db/participantDAOSelector.js'
+import { dao as participantDAO } from '../db/participantDAOSelector.js'
 import { createParticipant } from '../model/Participant.js'
 
 export const getParticipants = () => {
-    return dao.getParticipants()
+    return participantDAO.getParticipants()
 }
 
 export const getParticipant = (id) => {
-    return dao.getParticipant(id)
+    return participantDAO.getParticipant(id)
 }
 
 export const addParticipant = (data) => {
     const participant = createParticipant(data)
-    dao.addParticipant(participant)
+    participantDAO.addParticipant(participant)
     return participant
 }
 
-export const replaceParticipant = (id, data) => {
+export const updateParticipant = (id, data) => {
     const newParticipant = createParticipant(data)
-    dao.replaceParticipant(id, newParticipant)
+    participantDAO.updateParticipant(id, newParticipant)
     return newParticipant
 }
 
-export const removeParticipant = (id) => {
-    dao.deleteParticipant(id)
+export const deleteParticipant = (id) => {
+    participantDAO.deleteParticipant(id)
 }

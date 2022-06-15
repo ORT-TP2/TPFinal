@@ -7,7 +7,7 @@ export const getParticipants = () => {
 }
 
 export const getParticipant = (id) => {
-    const participant = participants.find(p => p.id === id)
+    const participant = participants.find(g => g.id === id)
     if (!participant) {
         const error = new Error(`Participant not found for id ${id}`)
         error.type = errorTypes.notFound
@@ -24,7 +24,7 @@ export const deleteParticipant = (id) => {
     participants.splice(participants.indexOf(getParticipant(id)))
 }
 
-export const replaceParticipant = (id, participant) => {
+export const updateParticipant = (id, participant) => {
     deleteParticipant(id)
     addParticipant(participant)
 }

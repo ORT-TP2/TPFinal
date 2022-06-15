@@ -2,8 +2,8 @@ import assert from 'assert'
 import axios from 'axios'
 
 import { start, stop } from '../src/server/server.js'
-import { getParticipants, addParticipant } from '../src/participant/service/participantService.js'
-import { getGroups, addGroup } from '../src/group/service/groupService.js'
+import * as participantService from '../src/participant/service/participantService.js'
+import * as groupService from '../src/group/service/groupService.js'
 
 
 describe('test server', () => {
@@ -35,7 +35,7 @@ describe('test server', () => {
 
                         //Assert
                         assert.strictEqual(status, 200)
-                        assert.deepStrictEqual(data, getParticipants())
+                        assert.deepStrictEqual(data, participantService.getParticipants())
                     })
                 })
                 describe('one', () => {
@@ -43,7 +43,7 @@ describe('test server', () => {
                         it('should return that one', async () => {
                             //Arrange
                             const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                            const addedParticipant = addParticipant(newParticipant)
+                            const addedParticipant = participantService.addParticipant(newParticipant)
 
                             //Act
                             const { data, status } = await axios.get(`${serverUrl}/participants/${addedParticipant.id}`)
@@ -77,14 +77,14 @@ describe('test server', () => {
                         describe(validDataObject.description, () => {
                             it("should add it", async () => {
                                 //Arrange
-                                const participantsBefore = getParticipants()
+                                const participantsBefore = participantService.getParticipants()
 
                                 //Act
                                 const { data, status } = await axios.post(`${serverUrl}/participants`, validDataObject.data)
 
                                 //Assert
                                 assert.strictEqual(status, 201)
-                                assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                                assert.deepStrictEqual(participantsBefore.concat(data), participantService.getParticipants())
                             })
                         })
                     })
@@ -94,7 +94,7 @@ describe('test server', () => {
                         describe(invalidDataObject.description, () => {
                             it("should return 400 (Bad Request) and not add it", async () => {
                                 //Arrange
-                                const participantsBefore = getParticipants()
+                                const participantsBefore = participantService.getParticipants()
 
                                 //Act & Assert
                                 await assert.rejects(
@@ -107,7 +107,7 @@ describe('test server', () => {
                                 )
 
                                 //Assert
-                                assert.deepStrictEqual(participantsBefore, getParticipants())
+                                assert.deepStrictEqual(participantsBefore, participantService.getParticipants())
                             })
                         })
                     })
@@ -121,15 +121,15 @@ describe('test server', () => {
                                 it("should update it", async () => {
                                     //Arrange
                                     const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                                    const participantsBefore = getParticipants()
-                                    const addedParticipant = addParticipant(newParticipant)
+                                    const participantsBefore = participantService.getParticipants()
+                                    const addedParticipant = participantService.addParticipant(newParticipant)
 
                                     //Act
                                     const { data, status } = await axios.put(`${serverUrl}/participants/${addedParticipant.id}`, validDataObject.data)
 
                                     //Assert
                                     assert.strictEqual(status, 200)
-                                    assert.deepStrictEqual(participantsBefore.concat(data), getParticipants())
+                                    assert.deepStrictEqual(participantsBefore.concat(data), participantService.getParticipants())
                                 })
                             })
                         })
@@ -140,8 +140,8 @@ describe('test server', () => {
                                 it("should return 400 (Bad Request) and not update", async () => {
                                     //Arrange
                                     const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                                    const addedParticipant = addParticipant(newParticipant)
-                                    const participantsBefore = getParticipants()
+                                    const addedParticipant = participantService.addParticipant(newParticipant)
+                                    const participantsBefore = participantService.getParticipants()
 
                                     //Act & Assert
                                     await assert.rejects(
@@ -153,7 +153,7 @@ describe('test server', () => {
                                         }
                                     )
                                     //Assert
-                                    assert.deepStrictEqual(participantsBefore, getParticipants())
+                                    assert.deepStrictEqual(participantsBefore, participantService.getParticipants())
                                 })
                             })
                         })
@@ -163,10 +163,10 @@ describe('test server', () => {
                     it("should return 404 (Not found) and not update", async () => {
                         //Arrange
                         const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                        addParticipant(newParticipant)
+                        participantService.addParticipant(newParticipant)
                         const id = "ThisIdDoesn'tExist"
                         const newUpdatedParticipant = { name: "Pepe Rodriguez", classOf: 2023 }
-                        const participantsBefore = getParticipants()
+                        const participantsBefore = participantService.getParticipants()
 
                         //Act & Assert
                         await assert.rejects(
@@ -178,7 +178,7 @@ describe('test server', () => {
                             }
                         )
                         //Assert
-                        assert.deepStrictEqual(participantsBefore, getParticipants())
+                        assert.deepStrictEqual(participantsBefore, participantService.getParticipants())
                     })
                 })
 
@@ -187,16 +187,16 @@ describe('test server', () => {
                 describe('that exists', () => {
                     it('should delete it', async () => {
                         //Arrange
-                        const participantsBefore = getParticipants()
+                        const participantsBefore = participantService.getParticipants()
                         const newParticipant = { name: "Juan Sanchez", classOf: 2022 }
-                        const addedParticipant = addParticipant(newParticipant)
+                        const addedParticipant = participantService.addParticipant(newParticipant)
 
                         //Act
                         const { data, status } = await axios.delete(`${serverUrl}/participants/${addedParticipant.id}`)
 
                         //Assert
                         assert.strictEqual(status, 200)
-                        assert.deepStrictEqual(participantsBefore, getParticipants())
+                        assert.deepStrictEqual(participantsBefore, participantService.getParticipants())
                     })
                 })
                 describe("that doesn't exist", () => {
@@ -236,7 +236,7 @@ describe('test server', () => {
 
                         //Assert
                         assert.strictEqual(status, 200)
-                        assert.deepStrictEqual(data, getGroups())
+                        assert.deepStrictEqual(data, groupService.getGroups())
                     })
                 })
                 describe('one', () => {
@@ -244,7 +244,7 @@ describe('test server', () => {
                         it('should return that one', async () => {
                             //Arrange
                             const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                            const addedGroup = addGroup(newGroup)
+                            const addedGroup = groupService.addGroup(newGroup)
 
                             //Act
                             const { data, status } = await axios.get(`${serverUrl}/groups/${addedGroup.id}`)
@@ -278,14 +278,14 @@ describe('test server', () => {
                         describe(validDataObject.description, () => {
                             it("should add it", async () => {
                                 //Arrange
-                                const groupsBefore = getGroups()
+                                const groupsBefore = groupService.getGroups()
 
                                 //Act
                                 const { data, status } = await axios.post(`${serverUrl}/groups`, validDataObject.data)
 
                                 //Assert
                                 assert.strictEqual(status, 201)
-                                assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
+                                assert.deepStrictEqual(groupsBefore.concat(data), groupService.getGroups())
                             })
                         })
                     })
@@ -295,7 +295,7 @@ describe('test server', () => {
                         describe(invalidDataObject.description, () => {
                             it("should return 400 (Bad Request) and not add it", async () => {
                                 //Arrange
-                                const groupsBefore = getGroups()
+                                const groupsBefore = groupService.getGroups()
 
                                 //Act & Assert
                                 await assert.rejects(
@@ -307,7 +307,7 @@ describe('test server', () => {
                                     }
                                 )
                                 //Assert
-                                assert.deepStrictEqual(groupsBefore, getGroups())
+                                assert.deepStrictEqual(groupsBefore, groupService.getGroups())
                             })
                         })
                     })
@@ -321,15 +321,15 @@ describe('test server', () => {
                                 it("should update it", async () => {
                                     //Arrange
                                     const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                                    const groupsBefore = getGroups()
-                                    const addedGroup = addGroup(newGroup)
+                                    const groupsBefore = groupService.getGroups()
+                                    const addedGroup = groupService.addGroup(newGroup)
 
                                     //Act
                                     const { data, status } = await axios.put(`${serverUrl}/groups/${addedGroup.id}`, validDataObject.data)
 
                                     //Assert
                                     assert.strictEqual(status, 200)
-                                    assert.deepStrictEqual(groupsBefore.concat(data), getGroups())
+                                    assert.deepStrictEqual(groupsBefore.concat(data), groupService.getGroups())
                                 })
                             })
                         })
@@ -340,8 +340,8 @@ describe('test server', () => {
                                 it("should return 400 (Bad Request) and not update", async () => {
                                     //Arrange
                                     const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                                    const addedGroup = addGroup(newGroup)
-                                    const groupsBefore = getGroups()
+                                    const addedGroup = groupService.addGroup(newGroup)
+                                    const groupsBefore = groupService.getGroups()
 
                                     //Act & Assert
                                     await assert.rejects(
@@ -353,7 +353,7 @@ describe('test server', () => {
                                         }
                                     )
                                     //Assert
-                                    assert.deepStrictEqual(groupsBefore, getGroups())
+                                    assert.deepStrictEqual(groupsBefore, groupService.getGroups())
                                 })
                             })
                         })
@@ -363,10 +363,10 @@ describe('test server', () => {
                     it("should return 404 (Not found) and not update", async () => {
                         //Arrange
                         const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                        addGroup(newGroup)
+                        groupService.addGroup(newGroup)
                         const id = "ThisIdDoesn'tExist"
                         const newUpdatedGroup = { name: "Reyes", ordinal: 4, area: "Primaria Chica", avgQty: 12 }
-                        const groupsBefore = getGroups()
+                        const groupsBefore = groupService.getGroups()
 
                         //Act & Assert
                         await assert.rejects(
@@ -378,7 +378,7 @@ describe('test server', () => {
                             }
                         )
                         //Assert
-                        assert.deepStrictEqual(groupsBefore, getGroups())
+                        assert.deepStrictEqual(groupsBefore, groupService.getGroups())
                     })
                 })
 
@@ -387,16 +387,16 @@ describe('test server', () => {
                 describe('that exists', () => {
                     it('should delete it', async () => {
                         //Arrange
-                        const groupsBefore = getGroups()
+                        const groupsBefore = groupService.getGroups()
                         const newGroup = { name: "Magos", ordinal: 1, area: "Jardín", avgQty: 15 }
-                        const addedGroup = addGroup(newGroup)
+                        const addedGroup = groupService.addGroup(newGroup)
 
                         //Act
                         const { status } = await axios.delete(`${serverUrl}/groups/${addedGroup.id}`)
 
                         //Assert
                         assert.strictEqual(status, 200)
-                        assert.deepStrictEqual(groupsBefore, getGroups())
+                        assert.deepStrictEqual(groupsBefore, groupService.getGroups())
                     })
                 })
                 describe("that doesn't exist", () => {

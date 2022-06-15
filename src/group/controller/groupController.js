@@ -1,22 +1,22 @@
-import { getGroups, getGroup, addGroup, replaceGroup, removeGroup } from "../service/groupService.js"
+import * as groupService from "../service/groupService.js"
 
-export const getGroupsController = (req, res) => {
-    res.json(getGroups())
+export const getGroups = (req, res) => {
+    res.json(groupService.getGroups())
 }
 
-export const getGroupController = (req, res) => {
-    res.json(getGroup(req.params.id))
+export const getGroup = (req, res) => {
+    res.json(groupService.getGroup(req.params.id))
 }
 
-export const addGroupController = (req, res) => {
-    res.status(201).json(addGroup(req.body))
+export const addGroup = (req, res) => {
+    res.status(201).json(groupService.addGroup(req.body))
 }
 
 
-export const updateGroupController = (req, res) => {
-    res.json(replaceGroup(req.params.id, req.body))
+export const updateGroup = (req, res) => {
+    res.json(groupService.updateGroup(req.params.id, req.body))
 }
 
-export const deleteGroupController = (req, res) => {
-    res.json(removeGroup(req.params.id))
+export const deleteGroup = (req, res) => {
+    res.json(groupService.deleteGroup(req.params.id))
 }
