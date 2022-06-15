@@ -24,7 +24,7 @@ export const deleteGroup = (id) => {
     groups.splice(groups.indexOf(getGroup(id)))
 }
 
-export const replaceGroup = (id, group) => {
+export const updateGroup = (id, group) => {
     deleteGroup(id)
     addGroup(group)
 }

@@ -1,22 +1,22 @@
-import { getParticipants, getParticipant, addParticipant, replaceParticipant, removeParticipant } from "../service/participantService.js"
+import * as participantService from "../service/participantService.js"
 
-export const getParticipantsController = (req, res) => {
-    res.json(getParticipants())
+export const getParticipants = (req, res) => {
+    res.json(participantService.getParticipants())
 }
 
-export const getParticipantController = (req, res) => {
-    res.json(getParticipant(req.params.id))
+export const getParticipant = (req, res) => {
+    res.json(participantService.getParticipant(req.params.id))
 }
 
-export const addParticipantController = (req, res) => {
-    res.status(201).json(addParticipant(req.body))
+export const addParticipant = (req, res) => {
+    res.status(201).json(participantService.addParticipant(req.body))
 }
 
 
-export const updateParticipantController = (req, res) => {
-    res.json(replaceParticipant(req.params.id, req.body))
+export const updateParticipant = (req, res) => {
+    res.json(participantService.updateParticipant(req.params.id, req.body))
 }
 
-export const deleteParticipantController = (req, res) => {
-    res.json(removeParticipant(req.params.id))
+export const deleteParticipant = (req, res) => {
+    res.json(participantService.deleteParticipant(req.params.id))
 }
