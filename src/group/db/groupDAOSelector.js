@@ -1,6 +1,6 @@
 import { PERSISTANCE_MODE, PERSISTANCE_MODES } from '../../config/config.js'
 import * as fileDAO from './implementations/groupMemoryDAO.js'
-import * as dbDAO from './implementations/groupMemoryDAO.js'
+import * as dbDAO from './implementations/groupDatabaseDAO.js'
 import * as memoryDAO from './implementations/groupMemoryDAO.js'
 
 export let dao

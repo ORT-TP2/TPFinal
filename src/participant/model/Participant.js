@@ -1,5 +1,5 @@
 import { errorTypes } from '../../error/errorTypes.js'
-import { getNewId } from '../../utils/ids.js'
+import { getNewId } from '../../utils/models/ids.js'
 
 
 export const createParticipant = (data, ID = getNewId('participant')) => {

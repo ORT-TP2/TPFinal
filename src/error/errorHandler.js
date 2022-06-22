@@ -10,6 +10,11 @@ export const errorHandler = (error, req, res, next) => {
             res.status(404)
             break
 
+        case errorTypes.database:
+            res.status(500)
+            error.message = `Database Error - Message: ${error.message}`
+            break
+
         default:
             res.status(500)
             error.message = `Unexpected Error - Message: ${error.message}`
