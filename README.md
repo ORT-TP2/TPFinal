@@ -19,7 +19,6 @@ For this purpose this application, which is meant for the course coordinator, wi
 ### Group 3
 - Schermuk Ariel 
 - Lopez, Aldo Sebastián
-- Martínez, Damián
 
 ## Installation
 
@@ -46,5 +45,5 @@ $ npm run start-dev * runs server with nodemon
 
 ```console
 $ npm run test * runs test suite
-$ npm run test-dev * runs server with nodemon
+$ npm run test-dev * runs test suite with nodemon
 ```

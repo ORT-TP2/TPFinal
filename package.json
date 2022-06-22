@@ -10,11 +10,12 @@
     "start": "node src/main.js",
     "start-dev": "nodemon src/main.js"
   },
-  "authors": "Ariel Schermuk, Aldo López, Damián Martinez",
+  "authors": "Ariel Schermuk, Aldo López",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
     "express": "^4.17.3",
+    "mongodb": "^4.7.0",
     "uuid": "^8.3.2"
   }
 }
