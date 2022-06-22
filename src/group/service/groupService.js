@@ -16,7 +16,7 @@ export const addGroup = (data) => {
 }
 
 export const updateGroup = (id, data) => {
-    const newGroup = createGroup(data)
+    const newGroup = createGroup(data, id)
     groupDAO.updateGroup(id, newGroup)
     return newGroup
 }

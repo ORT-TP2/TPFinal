@@ -2,11 +2,11 @@ import { errorTypes } from '../../error/errorTypes.js'
 import { getNewId } from '../../utils/ids.js'
 
 
-export const createGroup = (data) => {
+export const createGroup = (data, ID = getNewId('group')) => {
     validate(data)
 
     return {
-        id: getNewId('group'),
+        id: ID,
         name: data.name,
         ordinal: data.ordinal,
         area: data.area,

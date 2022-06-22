@@ -16,7 +16,7 @@ export const addParticipant = (data) => {
 }
 
 export const updateParticipant = (id, data) => {
-    const newParticipant = createParticipant(data)
+    const newParticipant = createParticipant(data, id)
     participantDAO.updateParticipant(id, newParticipant)
     return newParticipant
 }
